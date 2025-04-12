@@ -8,18 +8,19 @@
     /* ======== ESTILOS GENERALES Y FONDO ======== */
     body {
       margin: 0;
-      padding: 0;
+      padding: 20px;
       font-family: 'Courier New', Courier, monospace;
       color: #eee;
       background: linear-gradient(135deg, #0a0f1e, #1b233a);
-      overflow: hidden;
-      height: 100vh;
+      overflow-x: hidden;
+      min-height: 100vh;
       display: flex;
       align-items: center;
       justify-content: center;
+      box-sizing: border-box;
     }
 
-    /* Fondo animado sutil tipo partículas */
+    /* Fondo animado tipo partículas */
     body::before {
       content: "";
       position: absolute;
@@ -31,6 +32,7 @@
       background-size: 80px 80px;
       animation: moveBg 60s linear infinite;
       opacity: 0.05;
+      z-index: 0;
     }
 
     @keyframes moveBg {
@@ -42,8 +44,9 @@
       position: relative;
       background: rgba(10, 15, 30, 0.8);
       border-radius: 20px;
-      padding: 30px;
+      padding: 20px;
       box-shadow: 0 0 20px rgba(0, 255, 128, 0.2);
+      width: 100%;
       max-width: 600px;
       text-align: center;
       z-index: 2;
@@ -51,31 +54,33 @@
 
     h1 {
       margin-bottom: 20px;
-      font-size: 1.8rem;
+      font-size: 1.5rem;
       color: #00ffcc;
     }
 
     .input-group {
       display: flex;
-      justify-content: center;
-      gap: 10px;
+      flex-direction: column;
+      align-items: center;
+      gap: 15px;
       margin: 20px 0;
-      flex-wrap: wrap;
     }
 
     input {
-      padding: 10px;
+      padding: 12px;
       border: 1px solid #00ffcc;
       border-radius: 8px;
       background: #111827;
       color: #00ffcc;
       font-size: 1rem;
-      width: 100px;
+      width: 90%;
+      max-width: 250px;
+      box-sizing: border-box;
     }
 
     button {
       margin: 5px;
-      padding: 10px 20px;
+      padding: 12px 20px;
       background: #00ffcc;
       color: #0a0f1e;
       font-weight: bold;
@@ -83,6 +88,9 @@
       border-radius: 8px;
       cursor: pointer;
       transition: background 0.3s ease;
+      width: 90%;
+      max-width: 250px;
+      font-size: 1rem;
     }
 
     button:hover {
@@ -90,12 +98,14 @@
     }
 
     #text-display {
-      font-size: 1.5rem;
+      font-size: 1.2rem;
       margin: 20px 0;
-      min-height: 60px;
+      min-height: 80px;
       font-weight: bold;
       color: #ff4f91;
       transition: color 0.5s;
+      word-wrap: break-word;
+      line-height: 1.4;
     }
 
     .decrypted {
@@ -131,6 +141,14 @@
 
     .curve.bottom-right {
       bottom: -50px; right: -50px;
+    }
+
+    @media (min-width: 500px) {
+      .input-group {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
     }
   </style>
 </head>
@@ -186,19 +204,18 @@
     let currentPos = 0;
 
     function decrypt() {
-    const key1 = parseInt(document.getElementById('key1').value);
-    const key2 = document.getElementById('key2').value.trim().toLowerCase();
-    const key3 = document.getElementById('key3').value.trim().toLowerCase(); // Cambiado: ya no usar parseInt
+      const key1 = parseInt(document.getElementById('key1').value);
+      const key2 = document.getElementById('key2').value.trim().toLowerCase();
+      const key3 = document.getElementById('key3').value.trim().toLowerCase();
 
-    if (key1 === correctKeys.key1 &&
-        key2 === correctKeys.key2 &&
-        key3 === correctKeys.key3) {
-        animateDecryption();
-    } else {
-        showMessage('Te tocó intentar de nuevo');
+      if (key1 === correctKeys.key1 &&
+          key2 === correctKeys.key2 &&
+          key3 === correctKeys.key3) {
+          animateDecryption();
+      } else {
+          showMessage('Te tocó intentar de nuevo');
+      }
     }
-}
-
 
     function animateDecryption() {
       currentPos = 0;
